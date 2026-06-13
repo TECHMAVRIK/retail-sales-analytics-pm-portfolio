@@ -1,0 +1,165 @@
+
+<h2 class="sr-only">Tableau-style retail sales performance dashboard showing KPI cards, revenue by branch bar chart, monthly trend line, and category breakdown donut chart.</h2>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+.db{background:#1a1f2e;border-radius:var(--border-radius-lg);padding:0;overflow:hidden;font-family:var(--font-sans)}
+.db-top{background:#111827;padding:10px 18px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #2d3748}
+.db-title{color:#e2e8f0;font-size:14px;font-weight:500;letter-spacing:.02em}
+.db-pills{display:flex;gap:8px}
+.pill{font-size:11px;padding:3px 10px;border-radius:20px;border:1px solid #3d4a5c;color:#94a3b8;background:transparent}
+.pill.active{background:#3b82f6;border-color:#3b82f6;color:#fff}
+.db-body{padding:14px}
+.kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px}
+.kpi{background:#212d40;border-radius:8px;padding:12px 14px;border:1px solid #2d3a50}
+.kpi-label{font-size:11px;color:#64748b;margin-bottom:4px;text-transform:uppercase;letter-spacing:.05em}
+.kpi-value{font-size:22px;font-weight:500;color:#e2e8f0}
+.kpi-delta{font-size:11px;margin-top:4px}
+.up{color:#34d399}.down{color:#f87171}
+.charts-row{display:grid;grid-template-columns:1.6fr 1fr;gap:10px;margin-bottom:10px}
+.chart-box{background:#212d40;border-radius:8px;padding:14px;border:1px solid #2d3a50}
+.chart-title{font-size:12px;font-weight:500;color:#94a3b8;margin-bottom:12px;text-transform:uppercase;letter-spacing:.05em}
+.bottom-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+</style>
+
+<div class="db">
+  <div class="db-top">
+    <span class="db-title"><i class="ti ti-chart-bar" aria-hidden="true" style="margin-right:6px;color:#3b82f6"></i>Retail Sales Performance Dashboard — FY 2022–2023</span>
+    <div class="db-pills">
+      <span class="pill active">All Regions</span>
+      <span class="pill">North</span>
+      <span class="pill">South</span>
+      <span class="pill">East</span>
+      <span class="pill">West</span>
+    </div>
+  </div>
+
+  <div class="db-body">
+    <div class="kpi-row">
+      <div class="kpi">
+        <div class="kpi-label">Gross Revenue</div>
+        <div class="kpi-value">₹4.52Cr</div>
+        <div class="kpi-delta up"><i class="ti ti-arrow-up" aria-hidden="true"></i> +8.3% vs last year</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Gross Profit</div>
+        <div class="kpi-value">₹1.48Cr</div>
+        <div class="kpi-delta up"><i class="ti ti-arrow-up" aria-hidden="true"></i> +5.1% vs last year</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Avg Margin %</div>
+        <div class="kpi-value">32.7%</div>
+        <div class="kpi-delta down"><i class="ti ti-arrow-down" aria-hidden="true"></i> −1.2pp vs last year</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Stockout Events</div>
+        <div class="kpi-value">247</div>
+        <div class="kpi-delta down"><i class="ti ti-arrow-up" aria-hidden="true"></i> +18% vs last year</div>
+      </div>
+    </div>
+
+    <div class="charts-row">
+      <div class="chart-box">
+        <div class="chart-title">Revenue by Branch</div>
+        <div style="position:relative;height:200px"><canvas id="branchChart" role="img" aria-label="Bar chart of revenue by branch. South-02 leads at 48L, North-07 is lowest at 28L.">Branch revenue bar chart showing 12 branches.</canvas></div>
+      </div>
+      <div class="chart-box">
+        <div class="chart-title">Category Mix</div>
+        <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px;font-size:11px">
+          <span style="display:flex;align-items:center;gap:4px;color:#94a3b8"><span style="width:9px;height:9px;border-radius:2px;background:#3b82f6;display:inline-block"></span>Electronics 31%</span>
+          <span style="display:flex;align-items:center;gap:4px;color:#94a3b8"><span style="width:9px;height:9px;border-radius:2px;background:#34d399;display:inline-block"></span>Apparel 22%</span>
+          <span style="display:flex;align-items:center;gap:4px;color:#94a3b8"><span style="width:9px;height:9px;border-radius:2px;background:#f59e0b;display:inline-block"></span>Grocery 18%</span>
+          <span style="display:flex;align-items:center;gap:4px;color:#94a3b8"><span style="width:9px;height:9px;border-radius:2px;background:#a78bfa;display:inline-block"></span>Home 14%</span>
+          <span style="display:flex;align-items:center;gap:4px;color:#94a3b8"><span style="width:9px;height:9px;border-radius:2px;background:#f87171;display:inline-block"></span>Sports 9%</span>
+          <span style="display:flex;align-items:center;gap:4px;color:#94a3b8"><span style="width:9px;height:9px;border-radius:2px;background:#64748b;display:inline-block"></span>Stationery 6%</span>
+        </div>
+        <div style="position:relative;height:150px"><canvas id="catChart" role="img" aria-label="Donut chart of category revenue mix. Electronics 31%, Apparel 22%, Grocery 18%, Home Decor 14%, Sports 9%, Stationery 6%.">Category revenue breakdown donut chart.</canvas></div>
+      </div>
+    </div>
+
+    <div class="bottom-row">
+      <div class="chart-box" style="grid-column:span 2">
+        <div class="chart-title">Monthly Revenue Trend — Base vs Target</div>
+        <div style="position:relative;height:150px"><canvas id="trendChart" role="img" aria-label="Line chart showing monthly revenue trend across 24 months with a Q3 seasonal dip visible each year.">Monthly revenue trend line chart.</canvas></div>
+      </div>
+      <div class="chart-box">
+        <div class="chart-title">Inventory Risk Flags</div>
+        <div style="display:flex;flex-direction:column;gap:8px;margin-top:4px">
+          <div style="display:flex;align-items:center;justify-content:space-between;font-size:12px;padding:6px 10px;background:#2d1a1a;border-radius:6px;border:1px solid #4a2020">
+            <span style="color:#fca5a5">🔴 Slow Movers</span>
+            <span style="color:#f87171;font-weight:500">14 SKUs</span>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between;font-size:12px;padding:6px 10px;background:#2d2a1a;border-radius:6px;border:1px solid #4a3d1a">
+            <span style="color:#fcd34d">🟡 Stockout Risk</span>
+            <span style="color:#f59e0b;font-weight:500">9 SKUs</span>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between;font-size:12px;padding:6px 10px;background:#1a2d1e;border-radius:6px;border:1px solid #1e4024">
+            <span style="color:#86efac">🟢 Healthy</span>
+            <span style="color:#34d399;font-weight:500">7 SKUs</span>
+          </div>
+          <div style="margin-top:6px;padding:8px 10px;background:#212d40;border-radius:6px;border:1px solid #2d3a50">
+            <div style="font-size:11px;color:#64748b;margin-bottom:2px">Capital locked (slow movers)</div>
+            <div style="font-size:18px;font-weight:500;color:#f87171">₹18.4L</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+const gridColor='rgba(255,255,255,0.06)';
+const tickColor='#64748b';
+
+new Chart(document.getElementById('branchChart'),{
+  type:'bar',
+  data:{
+    labels:['S-02','N-01','W-02','E-01','S-01','N-02','W-01','E-02','S-03','N-03','W-03','N-07'],
+    datasets:[{
+      label:'Revenue (₹L)',
+      data:[48,45,43,41,40,38,36,35,33,31,30,28],
+      backgroundColor:['#3b82f6','#3b82f6','#3b82f6','#3b82f6','#3b82f6','#3b82f6','#3b82f6','#3b82f6','#3b82f6','#f59e0b','#f59e0b','#f87171'],
+      borderRadius:3,borderSkipped:false
+    }]
+  },
+  options:{
+    responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false}},
+    scales:{
+      x:{ticks:{color:tickColor,font:{size:10}},grid:{color:gridColor},border:{color:'transparent'}},
+      y:{ticks:{color:tickColor,font:{size:10},callback:v=>'₹'+v+'L'},grid:{color:gridColor},border:{color:'transparent'}}
+    }
+  }
+});
+
+new Chart(document.getElementById('catChart'),{
+  type:'doughnut',
+  data:{
+    labels:['Electronics','Apparel','Grocery','Home Decor','Sports','Stationery'],
+    datasets:[{data:[31,22,18,14,9,6],backgroundColor:['#3b82f6','#34d399','#f59e0b','#a78bfa','#f87171','#64748b'],borderWidth:0,hoverOffset:4}]
+  },
+  options:{responsive:true,maintainAspectRatio:false,cutout:'65%',plugins:{legend:{display:false}}}
+});
+
+const months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec','Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const actual=[32,34,36,38,40,42,29,31,39,44,47,50,34,36,39,42,43,46,31,33,41,46,49,53];
+const target=[35,35,37,39,41,43,43,44,44,45,47,50,37,38,40,42,44,46,46,47,47,48,50,53];
+new Chart(document.getElementById('trendChart'),{
+  type:'line',
+  data:{
+    labels:months,
+    datasets:[
+      {label:'Actual',data:actual,borderColor:'#3b82f6',backgroundColor:'rgba(59,130,246,0.08)',fill:true,tension:0.4,pointRadius:0,borderWidth:2},
+      {label:'Target',data:target,borderColor:'#f59e0b',backgroundColor:'transparent',fill:false,tension:0.4,pointRadius:0,borderWidth:1.5,borderDash:[4,3]}
+    ]
+  },
+  options:{
+    responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false}},
+    scales:{
+      x:{ticks:{color:tickColor,font:{size:9},maxRotation:0,autoSkip:true,maxTicksLimit:12},grid:{color:gridColor},border:{color:'transparent'}},
+      y:{ticks:{color:tickColor,font:{size:10},callback:v=>'₹'+v+'L'},grid:{color:gridColor},border:{color:'transparent'}}
+    }
+  }
+});
+</script>
